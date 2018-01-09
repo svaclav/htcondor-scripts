@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#
+# Finds total jobs running on target host
+# Uses condor_status command with -total option 
+# First argument of this script is the name of the server
+# We use simple awk command for filter and print needed output
+#
+
+AWK="/bin/awk"
+CONDOR_STATUS="/usr/bin/condor_status"
+CONDOR_FUNCTIONS="/home/strachon/scripts/find-server-names"
+
+source ${CONDOR_FUNCTIONS}
+
+if [ -z "$1" ]
+then
+  echo -e ""
+  echo -e "Please set server name as a argument to this command.\n"
+  echo -e "You can use these servers: \n"
+  find_server_names
+else
+  for i in $1; do TOTAL_JOBS=$(${CONDOR_STATUS} -schedd "${i}" -total | ${AWK} '/ Total / { print $2 }'); echo -e "Total jobs runnning on ${i}: ${TOTAL_JOBS}"; done
+fi

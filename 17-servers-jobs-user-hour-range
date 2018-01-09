@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#
+# Finds how many jobs have been completed on target server in the past hours
+# Uses condor_history command with -name and -constraint options
+# First mandatory argument of this script is the name of the server, second argument is the number of hours
+# We compute the number of completed jobs with grep's -c option
+#
+# Usage:
+# ./17-servers-jobs-user-hour-group condor.farm.particle.cz "12/04/2017 01:00:00" "12/06/2017 09:50:12"
+#
+
+AWK="/bin/awk"
+CONDOR_HISTORY="/usr/bin/condor_history"
+CONDOR_FUNCTIONS="/home/strachon/scripts/find-server-names"
+NOW_TIMESTAMP=$(date +%s)
+USERS=$(${CONDOR_STATUS} -submitters -total | grep -oP '\.\w*@' | grep -oP '[a-z]+[0-9]*' | sort | uniq)
+
+source ${CONDOR_FUNCTIONS}
+
+if [ -z "$1" ]
+then
+  echo -e ""
+  echo -e "Please set server name and number of hours passed as a argument to this command.\n"
+  echo -e 'Usage: ./17-completed-jobs-hours-range condor.farm.particle.cz "12/04/2017 01:00:00" "12/06/2017 09:50:12"\n'
+  echo -e "You can use these servers: \n"
+  find_server_names
+else
+  DATETIME_SINCE=$(date -d "$2" +%s)
+  DATETIME_UNTIL=$(date -d "$3" +%s)
+  for i in ${USERS}; do echo -e "Completed jobs on ${1} for user ${i} from ${2}, to ${3}: " $(${CONDOR_HISTORY} -name "$1" -constraint "JobStartDate => "${DATETIME_SINCE}" && CompletionDate >= "${DATETIME_UNTIL}" && JobStatus == 4" | grep -c ${i}); done
+fi

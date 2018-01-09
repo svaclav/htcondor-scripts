@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#
+# Finds running jobs on target server according to user's groups
+# Uses condor_status command with -submitters and -total options
+# First mandatory argument of this script is the name of the server
+# We use simple awk command for filter and print needed output
+#
+
+CONDOR_FUNCTIONS="/home/strachon/scripts/htcondor.inc"
+
+source ${CONDOR_FUNCTIONS}
+
+check-args $1
+
+function main() {
+  GROUP_JOBS=$(${CONDOR_STATUS} "$1" -submitters -total | ${AWK} '/group/ { print $1 " - " $2 }')
+  echo -e "Running jobs on ${1} according to user group:\n"
+  echo -e "${GROUP_JOBS}"
+}
+
+main $1
