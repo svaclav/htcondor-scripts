@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# Running and waiting jobs for user group
+#
+
 AWK="/bin/awk"
 CONDOR_STATUS="/usr/bin/condor_status"
 GROUP_NAMES=$(condor_userprio -allusers | grep -oP '\w+_\w+' | uniq | cut -d "_" -f 2)
