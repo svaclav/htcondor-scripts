@@ -6,6 +6,9 @@
 # First argument of this script is the name of the server
 # We use simple awk command for filter and print needed output
 #
+# Usage:
+# ./1-total-jobs condor.farm.particle.cz
+#
 
 AWK="/bin/awk"
 CONDOR_STATUS="/usr/bin/condor_status"

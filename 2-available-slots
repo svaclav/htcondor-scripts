@@ -6,6 +6,9 @@
 # First mandatory argument of this script is the name of the server
 # We use simple awk command for filter and print needed output
 #
+# Usage:
+# ./2-available-slots condor.farm.particle.cz
+#
 
 CONDOR_FUNCTIONS="/home/strachon/scripts/htcondor.inc"
 
