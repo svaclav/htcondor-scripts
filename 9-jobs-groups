@@ -3,6 +3,9 @@
 #
 # Running and waiting jobs for user group
 #
+# Usage:
+# ./9-jobs-groups
+#
 
 AWK="/bin/awk"
 CONDOR_STATUS="/usr/bin/condor_status"

@@ -3,6 +3,9 @@
 #
 # Finds how many users are in every user group
 # 
+# Usage:
+# ./8-users-in-group
+#
 
 AWK="/bin/awk"
 CONDOR_USERPRIO="/usr/bin/condor_userprio"

@@ -6,6 +6,9 @@
 # First mandatory argument of this script is the name of the server, second argument is the number of hours
 # We compute the number of completed jobs with wc utility
 #
+# Usage:
+# ./5-completed-jobs-hours condor.farm.particle.cz 5
+#
 
 CONDOR_FUNCTIONS="/home/strachon/scripts/htcondor.inc"
 
