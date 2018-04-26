@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#
+# Finds free, unused slots on target host
+# Uses condor_status command with -avail and -total options
+# First mandatory argument of this script is the name of the server
+# We use simple awk command for filter and print needed output
+#
+# Usage:
+# ./2-available-slots condor.farm.particle.cz
+#
+
+CONDOR_FUNCTIONS="/home/strachon/scripts/htcondor.inc"
+
+source ${CONDOR_FUNCTIONS}
+
+check-args $1
+
+function main() {
+  AVAIL_JOBS=$(${CONDOR_STATUS} -avail "$1" -total | ${AWK} '/ Total / { print $5 }')
+  echo -e "Available/Unclaimed slots on ${1}: ${AVAIL_JOBS}"
+}
+
+main $1
